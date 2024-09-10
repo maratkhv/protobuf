@@ -1,4 +1,4 @@
-module proto
+module github.com/maratkhv/protobuf
 
 go 1.22.2
 
