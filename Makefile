@@ -1,6 +1,6 @@
 CURDIR = $(shell pwd)
 GENERATEDDIR = ${CURDIR}/generated
-PROTODIR = ${CURDIR}/protobuf
+PROTODIR = ${CURDIR}/proto
 
 sso-generate-proto:
 	rm -rf ${GENERATEDDIR}/sso
