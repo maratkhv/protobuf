@@ -2,11 +2,11 @@ CURDIR = $(shell pwd)
 GENERATEDDIR = ${CURDIR}/generated
 PROTODIR = ${CURDIR}/proto
 
-sso-generate-proto:
-	rm -rf ${GENERATEDDIR}/sso
+auth-generate-proto:
+	rm -rf ${GENERATEDDIR}/auth
 	mkdir -p ${GENERATEDDIR}
 	protoc --proto_path=${PROTODIR} \
 	--go_out=${GENERATEDDIR} \
 	--go-grpc_out=${GENERATEDDIR} \
-	${PROTODIR}/sso/sso.proto 
+	${PROTODIR}/auth/auth.proto 
 	go mod tidy
