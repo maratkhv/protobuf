@@ -12,7 +12,7 @@ service Auth {
 
 message RegisterRequest {
     string email = 1;
-    string pwd = 2;
+    string password = 2;
 }
 
 message RegisterResponse {
@@ -21,7 +21,7 @@ message RegisterResponse {
 
 message LoginRequest {
     string email = 1;
-    string pwd = 2;
+    string password = 2;
     int64 app_id = 3;
 }
 
