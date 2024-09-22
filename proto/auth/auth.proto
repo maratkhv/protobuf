@@ -10,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 service Auth {
     rpc Register(RegisterRequest) returns (RegisterResponse);
     rpc Login(LoginRequest) returns (LoginResponse);
-    rpc GetPublicKey(google.protobuf.Empty) returns (GetPublicKeyResponse);
+    rpc GetPublicKey(GetPublicKeyRequest) returns (GetPublicKeyResponse);
 }
 
 message RegisterRequest {
@@ -32,6 +32,9 @@ message LoginResponse {
     google.protobuf.Timestamp pub_key_since = 2;
 }
 
+message GetPublicKeyRequest {
+    google.protobuf.Empty empty = 1;
+}
 
 message GetPublicKeyResponse {
     bytes pub_key = 1;

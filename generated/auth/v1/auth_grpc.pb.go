@@ -8,7 +8,6 @@ package auth
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -31,7 +30,7 @@ const (
 type AuthClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	GetPublicKey(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetPublicKeyResponse, error)
+	GetPublicKey(ctx context.Context, in *GetPublicKeyRequest, opts ...grpc.CallOption) (*GetPublicKeyResponse, error)
 }
 
 type authClient struct {
@@ -62,7 +61,7 @@ func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *authClient) GetPublicKey(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetPublicKeyResponse, error) {
+func (c *authClient) GetPublicKey(ctx context.Context, in *GetPublicKeyRequest, opts ...grpc.CallOption) (*GetPublicKeyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetPublicKeyResponse)
 	err := c.cc.Invoke(ctx, Auth_GetPublicKey_FullMethodName, in, out, cOpts...)
@@ -78,7 +77,7 @@ func (c *authClient) GetPublicKey(ctx context.Context, in *empty.Empty, opts ...
 type AuthServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	GetPublicKey(context.Context, *empty.Empty) (*GetPublicKeyResponse, error)
+	GetPublicKey(context.Context, *GetPublicKeyRequest) (*GetPublicKeyResponse, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -95,7 +94,7 @@ func (UnimplementedAuthServer) Register(context.Context, *RegisterRequest) (*Reg
 func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedAuthServer) GetPublicKey(context.Context, *empty.Empty) (*GetPublicKeyResponse, error) {
+func (UnimplementedAuthServer) GetPublicKey(context.Context, *GetPublicKeyRequest) (*GetPublicKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPublicKey not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
@@ -156,7 +155,7 @@ func _Auth_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 }
 
 func _Auth_GetPublicKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
+	in := new(GetPublicKeyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -168,7 +167,7 @@ func _Auth_GetPublicKey_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: Auth_GetPublicKey_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).GetPublicKey(ctx, req.(*empty.Empty))
+		return srv.(AuthServer).GetPublicKey(ctx, req.(*GetPublicKeyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
